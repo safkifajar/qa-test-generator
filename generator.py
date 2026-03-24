@@ -1,5 +1,6 @@
 import json
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 
 SYSTEM_PROMPT = """Kamu adalah QA engineer berpengalaman. Tugasmu adalah membuat test case yang lengkap dan detail dari PRD yang diberikan.
@@ -36,14 +37,14 @@ Jangan tambahkan teks apapun di luar JSON. Hanya output JSON murni."""
 
 
 def generate_test_cases(prd_text: str, api_key: str) -> list[dict]:
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-flash")
+    client = genai.Client(api_key=api_key)
 
     prompt = f"{SYSTEM_PROMPT}\n\nBerikut PRD yang perlu dibuatkan test case-nya:\n\n{prd_text}"
 
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.types.GenerationConfig(
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(
             temperature=0.3,
         ),
     )
