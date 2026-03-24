@@ -37,7 +37,7 @@ Jangan tambahkan teks apapun di luar JSON. Hanya output JSON murni."""
 
 def generate_test_cases(prd_text: str, api_key: str) -> list[dict]:
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-3.1-flash-lite")
+    model = genai.GenerativeModel("gemini-3.1-flash-lite-preview")
 
     prompt = f"{SYSTEM_PROMPT}\n\nBerikut PRD yang perlu dibuatkan test case-nya:\n\n{prd_text}"
 
